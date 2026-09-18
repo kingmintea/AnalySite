@@ -67,6 +67,7 @@ router.get(
       dongLandPriceAvg,
       zoningLegalBasis: zoningLimits.legalBasis,
       zoningDisclaimer: zoningLimits.disclaimer,
+      zoningFloorDisclaimer: zoningLimits.floorDisclaimer,
       warnings,
     });
   })

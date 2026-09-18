@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DATA_PATH = path.join(__dirname, '..', 'data', 'zoningLimits.json');
-const { limits, note } = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
+const { limits, note, floorNote } = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
 
 const LEGAL_BASIS = '국토의 계획 및 이용에 관한 법률 시행령 제84조(건폐율)·제85조(용적률)';
 
@@ -14,4 +14,4 @@ function getZoningLimit(landUseName) {
   return { ...limit, legalBasis: LEGAL_BASIS };
 }
 
-module.exports = { getZoningLimit, disclaimer: note, legalBasis: LEGAL_BASIS };
+module.exports = { getZoningLimit, disclaimer: note, floorDisclaimer: floorNote, legalBasis: LEGAL_BASIS };

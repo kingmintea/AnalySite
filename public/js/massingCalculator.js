@@ -3,7 +3,7 @@ import { renderIsometricSvg } from './isometricViz.js';
 const UNIT_TO_M = { mm: 0.001, cm: 0.01, m: 1 };
 const SCALE_OPTIONS = [1, 5, 10, 20, 25, 50, 100, 200];
 
-let context = { area: null, zoningLimit: null };
+let context = { area: null, zoningLimit: null, floorDisclaimer: '' };
 let mode = 'concept'; // 'concept' | 'model'
 let unit = 'mm';
 let scale = 100;
@@ -61,6 +61,8 @@ function computeResults() {
 }
 
 function addFloor() {
+  const maxFloors = context.zoningLimit?.maxFloors;
+  if (maxFloors && floors.length >= maxFloors) return;
   floors.push({ id: nextFloorId++, inputMode: 'area', width: '', depth: '', area: '' });
   render();
 }
@@ -184,6 +186,8 @@ function render() {
   }
 
   const areaUnitLabel = `${unit}²`;
+  const maxFloors = context.zoningLimit.maxFloors;
+  const atFloorCap = Boolean(maxFloors) && floors.length >= maxFloors;
 
   container.innerHTML = `
     <div class="mass-mode-tabs">
@@ -246,7 +250,10 @@ function render() {
           .join('') || '<tr><td colspan="5">아직 추가된 층이 없습니다.</td></tr>'}
       </tbody>
     </table>
-    <button type="button" id="massAddFloorBtn" class="secondary-btn">+ 층 추가</button>
+    <button type="button" id="massAddFloorBtn" class="secondary-btn" ${atFloorCap ? 'disabled' : ''}>
+      ${atFloorCap ? `최대 ${maxFloors}층까지 추가했습니다` : '+ 층 추가'}
+    </button>
+    ${maxFloors ? `<p class="card-sub mass-floor-limit-notice">이 용도지역은 저층주거환경 보호 목적상 여러 지자체가 공통으로 최대 ${maxFloors}층까지만 허용합니다(법정 수치가 아닌 관행 참고치) — ${context.floorDisclaimer || '정확한 층수 제한은 토지이음 등에서 확인하세요.'}</p>` : ''}
 
     <div class="mass-results" id="massResults">
       ${renderResultsHtml()}
@@ -311,8 +318,8 @@ export function init() {
   });
 }
 
-export function setContext({ area, zoningLimit }) {
-  context = { area, zoningLimit };
+export function setContext({ area, zoningLimit, floorDisclaimer }) {
+  context = { area, zoningLimit, floorDisclaimer: floorDisclaimer || '' };
   floors = [];
   nextFloorId = 1;
   render();

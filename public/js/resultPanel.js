@@ -115,9 +115,10 @@ export function render(data) {
   const withLimit = (data.landUse || []).filter((item) => item.zoningLimit);
   if (withLimit.length > 0) {
     withLimit.forEach((item) => {
-      const { buildingCoverageMax, floorAreaRatioMin, floorAreaRatioMax } = item.zoningLimit;
+      const { buildingCoverageMax, floorAreaRatioMin, floorAreaRatioMax, maxFloors } = item.zoningLimit;
       const row = document.createElement('p');
-      row.innerHTML = `<strong>${item.name}</strong>: 건폐율 ${buildingCoverageMax}% 이하, 용적률 ${floorAreaRatioMin}~${floorAreaRatioMax}%`;
+      const floorText = maxFloors ? `, 최대 ${maxFloors}층(관행치)` : '';
+      row.innerHTML = `<strong>${item.name}</strong>: 건폐율 ${buildingCoverageMax}% 이하, 용적률 ${floorAreaRatioMin}~${floorAreaRatioMax}%${floorText}`;
       els.zoningLimitList.appendChild(row);
     });
   } else {
@@ -126,7 +127,11 @@ export function render(data) {
   els.zoningDisclaimer.textContent = data.zoningDisclaimer || '';
   els.legalBasisText.textContent = data.zoningLegalBasis || '관련 법령 정보가 없습니다.';
 
-  massingCalculator.setContext({ area: data.area, zoningLimit: withLimit[0]?.zoningLimit || null });
+  massingCalculator.setContext({
+    area: data.area,
+    zoningLimit: withLimit[0]?.zoningLimit || null,
+    floorDisclaimer: data.zoningFloorDisclaimer || '',
+  });
 
   if (data.warnings && data.warnings.length > 0) {
     els.warnings.hidden = false;

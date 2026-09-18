@@ -9,10 +9,25 @@ export function bindAddressSuggestions(inputId, suggestionsId) {
     suggestions.replaceChildren();
   }
 
-  function showSuggestions(addresses) {
-      const topAddresses = addresses.slice(0, 3);
-    suggestions.replaceChildren(
-        ...topAddresses.map((address) => {
+  function showSuggestions(addresses, keyword) {
+    const topAddresses = addresses.slice(0, 3);
+    const items = [];
+
+    if (topAddresses.length > 0) {
+      const directButton = document.createElement('button');
+      directButton.type = 'button';
+      directButton.className = 'address-suggestion address-suggestion-direct';
+      directButton.innerHTML = `<strong>'${keyword}' 직접 검색</strong><small>입력한 값 그대로 바로 검색합니다</small>`;
+      directButton.addEventListener('click', () => {
+        input.value = keyword;
+        closeSuggestions();
+        input.form?.requestSubmit();
+      });
+      items.push(directButton);
+    }
+
+    items.push(
+      ...topAddresses.map((address) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'address-suggestion';
@@ -25,7 +40,9 @@ export function bindAddressSuggestions(inputId, suggestionsId) {
         return button;
       })
     );
-    suggestions.hidden = topAddresses.length === 0;
+
+    suggestions.replaceChildren(...items);
+    suggestions.hidden = items.length === 0;
   }
 
   input.addEventListener('input', () => {
@@ -44,7 +61,7 @@ export function bindAddressSuggestions(inputId, suggestionsId) {
           return;
         }
         const addresses = await res.json();
-        showSuggestions(addresses);
+        showSuggestions(addresses, keyword);
       } catch {
         closeSuggestions();
       }

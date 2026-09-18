@@ -1,10 +1,11 @@
 {
   "source": "국토의 계획 및 이용에 관한 법률 시행령 제84조(건폐율)·제85조(용적률), 2018.4.19 시행 기준 확인",
   "note": "아래 수치는 법령상 상한/범위이며, 실제 적용 건폐율·용적률은 특별시·광역시·특별자치시·특별자치도·시·군의 도시·군계획조례로 별도 정해진다.",
+  "floorNote": "최대 층수는 국토계획법 시행령에 전국 공통 수치로 정해져 있지 않으며, 실제로는 지자체 도시·군계획조례·지구단위계획·일조 등의 확보를 위한 높이 제한(건축법 제61조)으로 정해진다. 아래 층수는 저층주거환경 보호가 입법 취지인 제1종전용·제1종일반주거지역에 여러 지자체가 공통으로 적용하는 관행치(참고용)이며, 법적 구속력이 없다. 정확한 층수 제한은 토지이음 등에서 확인해야 한다.",
   "limits": {
-    "제1종전용주거지역": { "buildingCoverageMax": 50, "floorAreaRatioMin": 50, "floorAreaRatioMax": 100 },
+    "제1종전용주거지역": { "buildingCoverageMax": 50, "floorAreaRatioMin": 50, "floorAreaRatioMax": 100, "maxFloors": 4 },
     "제2종전용주거지역": { "buildingCoverageMax": 50, "floorAreaRatioMin": 100, "floorAreaRatioMax": 150 },
-    "제1종일반주거지역": { "buildingCoverageMax": 60, "floorAreaRatioMin": 100, "floorAreaRatioMax": 200 },
+    "제1종일반주거지역": { "buildingCoverageMax": 60, "floorAreaRatioMin": 100, "floorAreaRatioMax": 200, "maxFloors": 4 },
     "제2종일반주거지역": { "buildingCoverageMax": 60, "floorAreaRatioMin": 150, "floorAreaRatioMax": 250 },
     "제3종일반주거지역": { "buildingCoverageMax": 50, "floorAreaRatioMin": 200, "floorAreaRatioMax": 300 },
     "준주거지역": { "buildingCoverageMax": 70, "floorAreaRatioMin": 200, "floorAreaRatioMax": 500 },
