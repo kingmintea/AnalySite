@@ -1,0 +1,27 @@
+{
+  "source": "국토의 계획 및 이용에 관한 법률 시행령 제84조(건폐율)·제85조(용적률), 2018.4.19 시행 기준 확인",
+  "note": "아래 수치는 법령상 상한/범위이며, 실제 적용 건폐율·용적률은 특별시·광역시·특별자치시·특별자치도·시·군의 도시·군계획조례로 별도 정해진다.",
+  "limits": {
+    "제1종전용주거지역": { "buildingCoverageMax": 50, "floorAreaRatioMin": 50, "floorAreaRatioMax": 100 },
+    "제2종전용주거지역": { "buildingCoverageMax": 50, "floorAreaRatioMin": 100, "floorAreaRatioMax": 150 },
+    "제1종일반주거지역": { "buildingCoverageMax": 60, "floorAreaRatioMin": 100, "floorAreaRatioMax": 200 },
+    "제2종일반주거지역": { "buildingCoverageMax": 60, "floorAreaRatioMin": 150, "floorAreaRatioMax": 250 },
+    "제3종일반주거지역": { "buildingCoverageMax": 50, "floorAreaRatioMin": 200, "floorAreaRatioMax": 300 },
+    "준주거지역": { "buildingCoverageMax": 70, "floorAreaRatioMin": 200, "floorAreaRatioMax": 500 },
+    "중심상업지역": { "buildingCoverageMax": 90, "floorAreaRatioMin": 400, "floorAreaRatioMax": 1500 },
+    "일반상업지역": { "buildingCoverageMax": 80, "floorAreaRatioMin": 300, "floorAreaRatioMax": 1300 },
+    "근린상업지역": { "buildingCoverageMax": 70, "floorAreaRatioMin": 200, "floorAreaRatioMax": 900 },
+    "유통상업지역": { "buildingCoverageMax": 80, "floorAreaRatioMin": 200, "floorAreaRatioMax": 1100 },
+    "전용공업지역": { "buildingCoverageMax": 70, "floorAreaRatioMin": 150, "floorAreaRatioMax": 300 },
+    "일반공업지역": { "buildingCoverageMax": 70, "floorAreaRatioMin": 200, "floorAreaRatioMax": 350 },
+    "준공업지역": { "buildingCoverageMax": 70, "floorAreaRatioMin": 200, "floorAreaRatioMax": 400 },
+    "보전녹지지역": { "buildingCoverageMax": 20, "floorAreaRatioMin": 50, "floorAreaRatioMax": 80 },
+    "생산녹지지역": { "buildingCoverageMax": 20, "floorAreaRatioMin": 50, "floorAreaRatioMax": 100 },
+    "자연녹지지역": { "buildingCoverageMax": 20, "floorAreaRatioMin": 50, "floorAreaRatioMax": 100 },
+    "보전관리지역": { "buildingCoverageMax": 20, "floorAreaRatioMin": 50, "floorAreaRatioMax": 80 },
+    "생산관리지역": { "buildingCoverageMax": 20, "floorAreaRatioMin": 50, "floorAreaRatioMax": 80 },
+    "계획관리지역": { "buildingCoverageMax": 40, "floorAreaRatioMin": 50, "floorAreaRatioMax": 100 },
+    "농림지역": { "buildingCoverageMax": 20, "floorAreaRatioMin": 50, "floorAreaRatioMax": 80 },
+    "자연환경보전지역": { "buildingCoverageMax": 20, "floorAreaRatioMin": 50, "floorAreaRatioMax": 80 }
+  }
+}

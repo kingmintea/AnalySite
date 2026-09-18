@@ -1,0 +1,25 @@
+{
+  "address": {
+    "input": "서울특별시 성북구 안암동2가 40",
+    "road": "서울특별시 성북구 안암로 145",
+    "parcel": "서울특별시 성북구 안암동2가 40"
+  },
+  "coord": { "x": 127.02108406231305, "y": 37.586600132734574 },
+  "pnu": "1129012200100400000",
+  "area": 60.1,
+  "jimok": "대",
+  "landUse": [
+    {
+      "category": "용도지역(도시지역)",
+      "name": "제2종일반주거지역",
+      "noticeYear": "2024",
+      "noticeNumber": "서울특별시고시제2024-123호",
+      "zoningLimit": { "buildingCoverageMax": 60, "floorAreaRatioMin": 150, "floorAreaRatioMax": 250, "legalBasis": "국토의 계획 및 이용에 관한 법률 시행령 제84조(건폐율)·제85조(용적률)" }
+    }
+  ],
+  "landPrice": { "year": 2025, "pricePerSqm": 4231000, "baseDate": "2025-01-01" },
+  "dongLandPriceAvg": { "dongName": "안암동2가", "average": 3870000, "sampleSize": 300, "totalParcels": 445 },
+  "zoningLegalBasis": "국토의 계획 및 이용에 관한 법률 시행령 제84조(건폐율)·제85조(용적률)",
+  "zoningDisclaimer": "아래 수치는 법령상 상한/범위이며, 실제 적용 건폐율·용적률은 특별시·광역시·특별자치시·특별자치도·시·군의 도시·군계획조례로 별도 정해진다.",
+  "warnings": ["MOCK 데이터입니다. 실제 API 키를 설정하면 실데이터로 대체됩니다."]
+}

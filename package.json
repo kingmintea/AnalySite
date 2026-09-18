@@ -1,0 +1,22 @@
+{
+  "name": "analysite",
+  "version": "0.1.0",
+  "description": "주소 입력으로 필지 면적, 개별공시지가, 용도지역/지구, 도시계획도를 조회하는 웹사이트",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "restart": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/restart.ps1"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

@@ -1,0 +1,12 @@
+[
+  { "name": "안암역", "category": "지하철역", "address": "서울특별시 성북구 고려대로", "x": 127.0215, "y": 37.5860, "distanceM": 350, "subwayLines": [{ "name": "6호선", "color": "#cd7c2f" }] },
+  { "name": "고대앞 버스정류장", "category": "버스정류장", "address": "서울특별시 성북구 안암로", "x": 127.0208, "y": 37.5871, "distanceM": 120, "busType": "regular" },
+  { "name": "CU 안암점", "category": "편의점", "address": "서울특별시 성북구 안암동2가", "x": 127.0205, "y": 37.5867, "distanceM": 90 },
+  { "name": "스타벅스 안암고대점", "category": "카페", "address": "서울특별시 성북구 안암로", "x": 127.0215, "y": 37.5865, "distanceM": 150 },
+  { "name": "개운산근린공원", "category": "공원", "address": "서울특별시 성북구 안암동5가", "x": 127.0198, "y": 37.5880, "distanceM": 480 },
+  { "name": "다이소 안암점", "category": "다이소", "address": "서울특별시 성북구 안암로", "x": 127.0220, "y": 37.5864, "distanceM": 310 },
+  { "name": "올리브영 고대안암점", "category": "올리브영", "address": "서울특별시 성북구 고려대로", "x": 127.0217, "y": 37.5868, "distanceM": 400 },
+  { "name": "고려대학교", "category": "학교", "address": "서울특별시 성북구 안암로 145", "x": 127.0211, "y": 37.5866, "distanceM": 260 },
+  { "name": "안암 피트니스센터", "category": "헬스장", "address": "서울특별시 성북구 안암로", "x": 127.0222, "y": 37.5869, "distanceM": 180 },
+  { "name": "안암동 주민센터 도서관", "category": "도서관", "address": "서울특별시 성북구 안암로", "x": 127.0202, "y": 37.5874, "distanceM": 240 }
+]

@@ -1,0 +1,11 @@
+{
+  "temperature": 23.4,
+  "humidity": 58,
+  "precipitation": 0,
+  "national": {
+    "temperature": { "avg": 22.1, "min": 18.5, "max": 25.8 },
+    "humidity": { "avg": 62, "min": 45, "max": 78 },
+    "precipitation": { "avg": 0.3, "min": 0, "max": 3.2 },
+    "sampleSize": 15
+  }
+}

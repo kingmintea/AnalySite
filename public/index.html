@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>대지분석 도우미</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@9.2.4/ol.css" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<button type="button" id="themeToggleBtn" class="theme-toggle" aria-label="다크모드로 전환" title="다크모드로 전환">Dark</button>
+
+<div id="statusMessage" class="status-message" hidden></div>
+
+<section id="landingView" class="landing-view">
+  <h1>대지분석 도우미</h1>
+  <p class="landing-sub">분석할 대지 주소를 입력하세요</p>
+  <form id="landingSearchForm" class="hero-search">
+    <div class="address-autocomplete">
+      <input id="landingAddressInput" type="text" placeholder="예: 서울특별시 성북구 안암동2가 40" autocomplete="off" />
+      <div id="landingAddressSuggestions" class="address-suggestions" hidden></div>
+    </div>
+    <button type="submit">검색</button>
+  </form>
+  <button type="button" id="landingSplitToggle" class="link-btn">시/구/동/번지로 나눠 검색</button>
+  <form id="landingSplitForm" class="split-search" hidden>
+    <button type="button" id="landingAddressSearchBtn" class="secondary-btn">외부 주소 검색으로 채우기</button>
+    <select id="landingSi" aria-label="시/도"></select>
+    <input id="landingGu" placeholder="시/군/구 (예: 성북구)" autocomplete="off" />
+    <input id="landingDong" placeholder="읍/면/동 (예: 안암동2가)" autocomplete="off" />
+    <input id="landingBunji" placeholder="번지 (예: 40)" autocomplete="off" />
+    <button type="submit">검색</button>
+  </form>
+</section>
+
+<section id="resultsView" class="results-view" hidden>
+  <header class="results-header">
+    <a href="/" id="backToLanding" class="brand">대지분석 도우미</a>
+    <div class="results-search-area">
+      <form id="resultsSearchForm" class="search-box">
+        <div class="address-autocomplete">
+          <input id="resultsAddressInput" type="text" placeholder="다른 주소 검색" autocomplete="off" />
+          <div id="resultsAddressSuggestions" class="address-suggestions" hidden></div>
+        </div>
+        <button type="submit">검색</button>
+      </form>
+      <button type="button" id="resultsSplitToggle" class="link-btn">시/구/동/번지로 나눠 검색</button>
+      <form id="resultsSplitForm" class="split-search" hidden>
+        <button type="button" id="resultsAddressSearchBtn" class="secondary-btn">외부 주소 검색으로 채우기</button>
+        <select id="resultsSi" aria-label="시/도"></select>
+        <input id="resultsGu" placeholder="시/군/구" autocomplete="off" />
+        <input id="resultsDong" placeholder="읍/면/동" autocomplete="off" />
+        <input id="resultsBunji" placeholder="번지" autocomplete="off" />
+        <button type="submit">검색</button>
+      </form>
+    </div>
+  </header>
+
+  <p id="resultAddressTitle" class="result-address-title"></p>
+
+  <nav class="tabs" id="tabNav">
+    <button class="tab-btn" type="button" data-tab="naver">네이버 지도</button>
+    <button class="tab-btn" type="button" data-tab="land">토지정보</button>
+    <button class="tab-btn" type="button" data-tab="climate">기후정보</button>
+    <button class="tab-btn" type="button" data-tab="prompt">분석 프롬프트</button>
+  </nav>
+
+  <div class="tab-panel" data-tab="naver" hidden>
+    <div class="naver-workspace panorama-open">
+      <div class="result-card naver-map-card">
+      <h2>네이버 지도</h2>
+      <div id="naverMap" class="map"></div>
+      <div class="map-type-tabs" id="mapTypeTabs">
+        <button type="button" class="mode-tab active" data-maptype="NORMAL">일반</button>
+        <button type="button" class="mode-tab" data-maptype="SATELLITE">위성</button>
+        <button type="button" class="mode-tab" data-maptype="HYBRID">하이브리드</button>
+        <button type="button" class="mode-tab" data-maptype="TERRAIN">지형</button>
+        <button type="button" id="trafficToggleBtn" class="mode-tab" aria-pressed="false">교통 ON</button>
+        <button type="button" id="streetLayerToggleBtn" class="mode-tab" aria-pressed="false">거리뷰 레이어 ON</button>
+      </div>
+      <div class="map-controls-divider" aria-hidden="true"></div>
+      <button type="button" id="markerLegendToggleBtn" class="secondary-btn">마커 색상 닫기</button>
+      <div id="markerLegend" class="marker-legend">
+        <div class="marker-legend-group"><strong>교통</strong><span><i class="marker-swatch line-1"></i>1호선</span><span><i class="marker-swatch line-2"></i>2호선</span><span><i class="marker-swatch line-3"></i>3호선</span><span><i class="marker-swatch line-4"></i>4호선</span><span><i class="marker-swatch line-5"></i>5호선</span><span><i class="marker-swatch line-6"></i>6호선</span><span><i class="marker-swatch line-7"></i>7호선</span><span><i class="marker-swatch line-8"></i>8호선</span><span><i class="marker-swatch line-9"></i>9호선</span><span><i class="marker-swatch line-ui"></i>우이신설선</span><span><i class="marker-swatch line-shinbundang"></i>신분당선</span><span><i class="marker-swatch bus-regular"></i>일반버스</span><span><i class="marker-swatch bus-village"></i>마을버스</span></div>
+        <div class="marker-legend-group"><strong>생활·교육</strong><span><i class="marker-swatch facility-convenience"></i>편의점</span><span><i class="marker-swatch facility-cafe"></i>카페</span><span><i class="marker-swatch facility-park"></i>공원</span><span><i class="marker-swatch facility-school"></i>학교</span><span><i class="marker-swatch facility-gym"></i>헬스장</span><span><i class="marker-swatch facility-library"></i>도서관</span></div>
+      </div>
+      </div>
+      <div id="panoramaPanel" class="result-card panorama-panel"><h2>거리뷰</h2><div id="naverPanorama" class="map"></div><p class="card-sub panorama-help-text">거리뷰가 로드되지 않으면 페이지를 새로고침해 주세요.</p></div>
+      <div class="result-card nearby-card">
+        <h2>주변 시설</h2>
+        <p class="card-sub">부지 인근의 주요 시설을 검색하고, 도보 이동 시간을 함께 보여줍니다. 분야별 최대 3곳(1km 이내는 전부)까지 표시합니다.</p>
+        <div class="nearby-group-tabs" id="nearbyGroupTabs"><button type="button" class="mode-tab active" data-group="traffic">교통</button><button type="button" class="mode-tab" data-group="life">생활</button><button type="button" class="mode-tab" data-group="education">교육</button></div>
+        <p id="nearbyDataSourceNotice" class="card-sub mock-data-notice" hidden>현재 주변 시설 API 키가 없어 아래 목업 데이터를 제시하고 있습니다.</p>
+        <div id="nearbyPlacesStatus" class="status-message" hidden></div><div id="nearbyPlacesContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" data-tab="land" hidden>
+    <main class="layout">
+      <section class="map-panel">
+        <div id="map" class="map"></div>
+        <div class="layer-toggles">
+          <label><input type="checkbox" id="toggleLandUse" checked /> 용도지역</label>
+          <label><input type="checkbox" id="toggleCadastre" checked /> 지적도</label>
+        </div>
+      </section>
+
+      <section class="result-panel">
+        <div id="warnings" class="warnings" hidden></div>
+
+        <div class="result-card">
+          <h2>기본 정보</h2>
+          <dl id="basicInfo" class="info-list">
+            <dt>주소</dt><dd id="infoAddress">-</dd>
+            <dt>면적</dt><dd id="infoArea">-</dd>
+            <dt>지목</dt><dd id="infoJimok">-</dd>
+            <dt>PNU</dt><dd id="infoPnu">-</dd>
+          </dl>
+        </div>
+
+        <div class="result-card">
+          <h2>개별공시지가</h2>
+          <p id="landPriceInfo">-</p>
+          <div id="dongPriceCompare"></div>
+        </div>
+
+        <div class="result-card">
+          <h2>용도지역/지구</h2>
+          <table id="landUseTable">
+            <thead><tr><th>구분</th><th>지정 명칭</th><th>고시</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <button type="button" id="landUseMoreBtn" class="secondary-btn">더보기</button>
+          <div id="landUseMoreInfo" hidden></div>
+        </div>
+
+        <div class="result-card">
+          <h2>건폐율 · 용적률 (법정 상한)</h2>
+          <p class="card-sub">건폐율: 대지면적 대비 건축면적(수평투영면적) 비율 · 용적률: 대지면적 대비 연면적(전 층 바닥면적 합) 비율</p>
+          <div id="zoningLimitList"></div>
+          <p class="card-sub" id="zoningDisclaimer"></p>
+          <button type="button" id="massingToggleBtn" class="secondary-btn">면적 계산기 열기</button>
+          <div id="massingCalculator" hidden></div>
+        </div>
+
+        <div class="result-card">
+          <h2>관련 법령</h2>
+          <p id="legalBasisText">-</p>
+          <p class="card-sub">
+            정확한 지역·지구 지정 내용과 조례상 수치는
+            <a href="https://www.eum.go.kr" target="_blank" rel="noopener">토지이음(eum.go.kr)</a>에서
+            지번으로 직접 확인하는 것을 권장합니다.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="tab-panel" data-tab="climate" hidden>
+    <div class="result-card">
+      <h2>주변 기후정보</h2>
+      <p class="card-sub">기상청 초단기실황 기준(매시 갱신), 전국 주요 도시 15곳 대비</p>
+      <p id="weatherDataSourceNotice" class="card-sub mock-data-notice" hidden>기상청 API 인증에 실패해 아래 목업 데이터를 제시하고 있습니다.</p>
+      <div id="weatherStatus" class="status-message" hidden></div>
+      <div class="weather-grid">
+        <div class="weather-metric">
+          <div class="weather-metric-label">기온</div>
+          <div class="weather-metric-value" id="weatherTemperature">-</div>
+          <div class="weather-metric-insight" id="weatherTemperatureInsight"></div>
+          <div class="weather-compare" id="weatherTemperatureCompare"></div>
+        </div>
+        <div class="weather-metric">
+          <div class="weather-metric-label">습도</div>
+          <div class="weather-metric-value" id="weatherHumidity">-</div>
+          <div class="weather-metric-insight" id="weatherHumidityInsight"></div>
+          <div class="weather-compare" id="weatherHumidityCompare"></div>
+        </div>
+        <div class="weather-metric">
+          <div class="weather-metric-label">강수량</div>
+          <div class="weather-metric-value" id="weatherPrecipitation">-</div>
+          <div class="weather-metric-insight" id="weatherPrecipitationInsight"></div>
+          <div class="weather-compare" id="weatherPrecipitationCompare"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <h2>연간 절기별 평균 (기후평년값 1991–2020)</h2>
+      <p class="card-sub" id="climateStationInfo">-</p>
+      <div id="climateInsights" class="climate-insights"></div>
+      <div id="seasonalCharts" class="seasonal-charts"></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" data-tab="naver" hidden>
+    <div class="naver-workspace panorama-open">
+      <div class="result-card naver-map-card">
+      <h2>네이버 지도</h2>
+      <div id="naverMap" class="map"></div>
+      <div class="map-type-tabs" id="mapTypeTabs">
+        <button type="button" class="mode-tab active" data-maptype="NORMAL">일반</button>
+        <button type="button" class="mode-tab" data-maptype="SATELLITE">위성</button>
+        <button type="button" class="mode-tab" data-maptype="HYBRID">하이브리드</button>
+        <button type="button" class="mode-tab" data-maptype="TERRAIN">지형</button>
+        <button type="button" id="trafficToggleBtn" class="mode-tab" aria-pressed="false">교통 ON</button>
+        <button type="button" id="streetLayerToggleBtn" class="mode-tab" aria-pressed="false">거리뷰 레이어 ON</button>
+      </div>
+
+      <div class="map-controls-divider" aria-hidden="true"></div>
+      <button type="button" id="markerLegendToggleBtn" class="secondary-btn">마커 색상 닫기</button>
+      <div id="markerLegend" class="marker-legend">
+        <div class="marker-legend-group">
+          <strong>교통</strong>
+          <span><i class="marker-swatch line-1"></i>1호선</span>
+          <span><i class="marker-swatch line-2"></i>2호선</span>
+          <span><i class="marker-swatch line-3"></i>3호선</span>
+          <span><i class="marker-swatch line-4"></i>4호선</span>
+          <span><i class="marker-swatch line-5"></i>5호선</span>
+          <span><i class="marker-swatch line-6"></i>6호선</span>
+          <span><i class="marker-swatch line-7"></i>7호선</span>
+          <span><i class="marker-swatch line-8"></i>8호선</span>
+          <span><i class="marker-swatch line-9"></i>9호선</span>
+          <span><i class="marker-swatch line-ui"></i>우이신설선</span>
+          <span><i class="marker-swatch line-shinbundang"></i>신분당선</span>
+          <span><i class="marker-swatch bus-regular"></i>일반버스</span>
+          <span><i class="marker-swatch bus-village"></i>마을버스</span>
+        </div>
+        <div class="marker-legend-group">
+          <strong>생활·교육</strong>
+          <span><i class="marker-swatch facility-convenience"></i>편의점</span>
+          <span><i class="marker-swatch facility-cafe"></i>카페</span>
+          <span><i class="marker-swatch facility-park"></i>공원</span>
+          <span><i class="marker-swatch facility-school"></i>학교</span>
+          <span><i class="marker-swatch facility-gym"></i>헬스장</span>
+          <span><i class="marker-swatch facility-library"></i>도서관</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="result-card nearby-card">
+      <h2>주변 시설</h2>
+      <p class="card-sub">부지 인근의 주요 시설을 검색하고, 도보 이동 시간을 함께 보여줍니다. 분야별 최대 3곳(1km 이내는 전부)까지 표시합니다.</p>
+      <div class="nearby-group-tabs" id="nearbyGroupTabs">
+        <button type="button" class="mode-tab active" data-group="traffic">교통</button>
+        <button type="button" class="mode-tab" data-group="life">생활</button>
+        <button type="button" class="mode-tab" data-group="education">교육</button>
+      </div>
+      <p id="nearbyDataSourceNotice" class="card-sub mock-data-notice" hidden>현재 주변 시설 API 키가 없어 아래 목업 데이터를 제시하고 있습니다.</p>
+      <div id="nearbyPlacesStatus" class="status-message" hidden></div>
+      <div id="nearbyPlacesContent"></div>
+      </div>
+
+      <div id="panoramaPanel" class="result-card panorama-panel">
+        <h2>거리뷰</h2>
+        <div id="naverPanorama" class="map"></div>
+        <p class="card-sub panorama-help-text">거리뷰가 로드되지 않으면 페이지를 새로고침해 주세요.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" data-tab="prompt" hidden>
+    <div class="result-card">
+      <h2>분석 프롬프트 생성</h2>
+      <p class="card-sub">대지분석 결과와 아래 6가지 질문에 대한 답변을 하나의 프롬프트로 정리합니다. AI 설계 도구나 스튜디오 과제에 활용하세요.</p>
+      <dl id="promptSiteSummary" class="info-list"></dl>
+    </div>
+
+    <div class="result-card">
+      <h2>설계 질문 (6가지)</h2>
+      <div id="promptQuestions" class="prompt-questions"></div>
+      <button type="button" id="promptGenerateBtn" class="secondary-btn" disabled>프롬프트 생성</button>
+      <p id="promptGenerateHint" class="card-sub"></p>
+    </div>
+
+    <div class="result-card" id="promptOutputCard" hidden>
+      <h2>생성된 프롬프트</h2>
+      <textarea id="promptOutput" class="prompt-output" readonly rows="14"></textarea>
+      <button type="button" id="promptCopyBtn" class="secondary-btn">클립보드에 복사</button>
+      <span id="promptCopyStatus" class="card-sub"></span>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/ol@9.2.4/dist/ol.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
