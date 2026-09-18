@@ -48,6 +48,10 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({ error: { code, message: err.message || '알 수 없는 오류가 발생했습니다.' } });
 });
 
-app.listen(env.port, () => {
-  console.log(`AnalySite server listening on http://localhost:${env.port} (mock mode: ${env.useMock})`);
-});
+if (require.main === module) {
+  app.listen(env.port, () => {
+    console.log(`AnalySite server listening on http://localhost:${env.port} (mock mode: ${env.useMock})`);
+  });
+}
+
+module.exports = app;
