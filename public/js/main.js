@@ -11,7 +11,6 @@ import { bindAddressSuggestions } from './addressSuggestions.js';
 
 const themeToggleBtn = document.getElementById('themeToggleBtn');
 const savedTheme = window.localStorage.getItem('analysite-theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
@@ -21,7 +20,7 @@ function applyTheme(theme) {
   themeToggleBtn.title = isDark ? '라이트모드로 전환' : '다크모드로 전환';
 }
 
-applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+applyTheme(savedTheme || 'dark');
 themeToggleBtn.addEventListener('click', () => {
   const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
   window.localStorage.setItem('analysite-theme', nextTheme);
