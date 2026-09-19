@@ -97,7 +97,7 @@ function setStatus(message, isError) {
 }
 
 function switchTab(tab, { updateUrl = true } = {}) {
-  const tabId = VALID_TABS.includes(tab) ? tab : 'land';
+  const tabId = VALID_TABS.includes(tab) ? tab : 'naver';
 
   tabNav.querySelectorAll('.tab-btn').forEach((btn) => {
     btn.classList.toggle('active', btn.dataset.tab === tabId);
@@ -239,7 +239,7 @@ async function loadLandTab(address) {
   }
 }
 
-async function showResults(address, { tab = 'land', updateUrl = true } = {}) {
+async function showResults(address, { tab = 'naver', updateUrl = true } = {}) {
   landingView.hidden = true;
   resultsView.hidden = false;
   resultAddressTitle.textContent = address;
@@ -347,7 +347,7 @@ window.addEventListener('popstate', () => {
   const url = new URL(window.location.href);
   const address = currentAddress(url);
   if (address) {
-    showResults(address, { tab: url.searchParams.get('tab') || 'land', updateUrl: false });
+    showResults(address, { tab: url.searchParams.get('tab') || 'naver', updateUrl: false });
   } else {
     showLanding();
   }
@@ -357,7 +357,7 @@ function init() {
   const url = new URL(window.location.href);
   const address = currentAddress(url);
   if (address) {
-    showResults(address, { tab: url.searchParams.get('tab') || 'land', updateUrl: false });
+    showResults(address, { tab: url.searchParams.get('tab') || 'naver', updateUrl: false });
   } else {
     showLanding();
   }
